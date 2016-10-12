@@ -1,0 +1,208 @@
+00001000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.15.02
+Created On: 06/04/2015 2:38:11 AM
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Program    :
+00000000                             3  * Written by :
+00000000                             4  * Date       :
+00000000                             5  * Description:
+00000000                             6  *-----------------------------------------------------------
+00001000                             7          ORG     $1000
+00001000                             8  START:
+00001000                             9  
+00001000  41F9 00001200             10          LEA ARR,A0              ; Getting the address
+00001006                            11          
+00001006  4242                      12          CLR.W D2                        ; Clearing
+00001008                            13  
+00001008                            14  LOOP_UI:
+00001008  43F9 00001214             15          LEA     MSG1,A1 
+0000100E  103C 000E                 16          MOVE.B  #14,D0
+00001012  4E4F                      17          TRAP    #15         ;Print msg1
+00001014                            18          
+00001014  4241                      19          CLR     D1
+00001016  103C 0004                 20          MOVE.B  #4,D0
+0000101A  4E4F                      21          TRAP    #15
+0000101C                            22          
+0000101C  B2BC 00000001             23          CMP.L   #1,D1
+00001022  6700 009A                 24          BEQ     PRINTODD
+00001026                            25          
+00001026  B2BC 00000002             26          CMP.L   #2,D1
+0000102C  6700 0022                 27          BEQ     PRINTEVEN
+00001030                            28  
+00001030  43F9 0000122C             29          LEA     MSG2,A1 
+00001036  103C 000E                 30          MOVE.B  #14,D0
+0000103A  4E4F                      31          TRAP    #15         ;Print msg2
+0000103C                            32  
+0000103C  43F9 00001247             33          LEA     ENDL,A1
+00001042  103C 000E                 34          MOVE.B  #14,D0
+00001046  4E4F                      35          TRAP    #15
+00001048                            36          
+00001048  60BE                      37          BRA     LOOP_UI
+0000104A                            38  
+0000104A                            39  
+0000104A                            40  END_LOOP_UI:
+0000104A  103C 0009                 41          MOVE.B  #9,D0
+0000104E  4E4F                      42          TRAP    #15
+00001050                            43  
+00001050                            44  
+00001050                            45  PRINTEVEN:
+00001050  4247                      46          CLR.W D7
+00001052  3C48                      47          MOVE    A0,A6
+00001054                            48  
+00001054  43F9 00001243             49          LEA     LBRA,A1         
+0000105A  103C 000E                 50          MOVE.B  #14,D0
+0000105E  4E4F                      51          TRAP    #15             ; Print `[`
+00001060                            52          
+00001060                            53  PRINTEVEN_LOOP:
+00001060                            54          
+00001060  3216                      55          MOVE    (A6),D1 
+00001062  343C 0002                 56          MOVE    #2,D2           
+00001066  82C2                      57          DIVU    D2,D1
+00001068  4841                      58          SWAP    D1
+0000106A  4243                      59          CLR     D3
+0000106C  3601                      60          MOVE.W  D1,D3   
+0000106E  2203                      61          MOVE.L  D3,D1
+00001070                            62  
+00001070  5247                      63          ADD #1,D7
+00001072  B2BC 00000000             64          CMP.L   #0,D1
+00001078  6700 001E                 65          BEQ     PRINTEVEN_LOOP_NEXT
+0000107C                            66  
+0000107C  3216                      67          MOVE    (A6),D1        
+0000107E  103C 0003                 68          MOVE.B  #3,D0
+00001082  4E4F                      69          TRAP    #15             ; Print
+00001084                            70  
+00001084  BE7C 0009                 71          CMP #9,D7
+00001088  6E00 000E                 72          BGT PRINTEVEN_LOOP_NEXT
+0000108C                            73  
+0000108C  43F9 00001240             74          LEA     CMSP,A1         
+00001092  103C 000E                 75          MOVE.B  #14,D0
+00001096  4E4F                      76          TRAP    #15             ; Print Comma and space
+00001098                            77  
+00001098                            78  
+00001098                            79  PRINTEVEN_LOOP_NEXT:
+00001098                            80  
+00001098  544E                      81          ADDA     #2,A6          ; GOING TO NEXT VALUE   1
+0000109A  BE7C 000A                 82          CMP #10,D7
+0000109E  6DC0                      83          BLT PRINTEVEN_LOOP
+000010A0                            84  
+000010A0                            85  END_PRINTEVEN:
+000010A0                            86  
+000010A0  43F9 00001245             87          LEA     RBRA,A1 
+000010A6  103C 000E                 88          MOVE.B  #14,D0
+000010AA  4E4F                      89          TRAP    #15             ; Print `[`
+000010AC                            90          
+000010AC  43F9 00001247             91          LEA     ENDL,A1
+000010B2  103C 000E                 92          MOVE.B  #14,D0
+000010B6  4E4F                      93          TRAP    #15
+000010B8                            94          
+000010B8  4247                      95          CLR.W D7
+000010BA  6000 FF4C                 96          BRA     LOOP_UI
+000010BE                            97          
+000010BE                            98  PRINTODD:
+000010BE  4247                      99          CLR.W D7
+000010C0  4246                     100          CLR.W D6
+000010C2  3C48                     101          MOVE    A0,A6
+000010C4                           102  
+000010C4  43F9 00001243            103          LEA     LBRA,A1         
+000010CA  103C 000E                104          MOVE.B  #14,D0
+000010CE  4E4F                     105          TRAP    #15             ; Print `[`
+000010D0                           106          
+000010D0                           107  PRINTODD_LOOP:
+000010D0                           108  
+000010D0  3216                     109          MOVE    (A6),D1 
+000010D2  343C 0002                110          MOVE    #2,D2           
+000010D6  82C2                     111          DIVU    D2,D1
+000010D8  4841                     112          SWAP    D1
+000010DA  4243                     113          CLR     D3
+000010DC  3601                     114          MOVE.W  D1,D3   
+000010DE  2203                     115          MOVE.L  D3,D1
+000010E0                           116  
+000010E0  5247                     117          ADD #1,D7
+000010E2  B2BC 00000001            118          CMP.L   #1,D1
+000010E8  6700 0020                119          BEQ     PRINTODD_LOOP_NEXT
+000010EC                           120  
+000010EC  BC7C 0000                121          CMP #0,D6
+000010F0  6700 000E                122          BEQ PRINTODD_PRINTN
+000010F4                           123  
+000010F4  43F9 00001240            124          LEA     CMSP,A1         
+000010FA  103C 000E                125          MOVE.B  #14,D0
+000010FE  4E4F                     126          TRAP    #15             ; Print Comma and space
+00001100                           127  
+00001100                           128  PRINTODD_PRINTN:
+00001100                           129  
+00001100  5246                     130          ADD #1,D6
+00001102  3216                     131          MOVE    (A6),D1        
+00001104  103C 0003                132          MOVE.B  #3,D0
+00001108  4E4F                     133          TRAP    #15             ; Print
+0000110A                           134  
+0000110A                           135  PRINTODD_LOOP_NEXT:
+0000110A                           136  
+0000110A  544E                     137          ADDA    #2,A6           ; GOING TO NEXT VALUE   
+0000110C                           138          
+0000110C  BE7C 000A                139          CMP #10,D7
+00001110  6DBE                     140          BLT PRINTODD_LOOP
+00001112                           141  
+00001112                           142  END_PRINTODD:
+00001112                           143  
+00001112  43F9 00001245            144          LEA     RBRA,A1 
+00001118  103C 000E                145          MOVE.B  #14,D0
+0000111C  4E4F                     146          TRAP    #15             ; Print `[`
+0000111E                           147          
+0000111E  43F9 00001247            148          LEA     ENDL,A1
+00001124  103C 000E                149          MOVE.B  #14,D0
+00001128  4E4F                     150          TRAP    #15
+0000112A                           151          
+0000112A  4247                     152          CLR.W D7
+0000112C  6000 FEDA                153          BRA     LOOP_UI
+00001130                           154          
+00001130                           155          
+00001130                           156  * Variables and Strings
+00001130                           157          
+00001200                           158          ORG     $1200
+00001200                           159          
+00001200  =0000000D                160  CR       EQU     $0D         
+00001200  =0000000A                161  LF       EQU     $0A 
+00001200                           162  
+00001200                           163          
+00001200= 0005 0007 000C 0...      164  ARR     DC.W    5,7,12,3,8,21,11,1,2,16 ; Initialize the array
+00001214                           165  
+00001214= 45 6E 74 65 72 20 ...    166  MSG1    DC.B    'Enter a number (1 or 2)',0
+0000122C= 53 6F 20 63 6C 6F ...    167  MSG2    DC.B    'So close, try again',0
+00001240                           168  
+00001240= 2C 20 00                 169  CMSP    DC.B    ', ',0          ; Comma and space
+00001243= 5B 00                    170  LBRA    DC.B    '[',0
+00001245= 5D 00                    171  RBRA    DC.B    ']',0
+00001247= 0D 0A 00                 172  ENDL    DC.B    CR, LF, 0               ; Changing line
+0000124A                           173  
+0000124A                           174  
+0000124A                           175          END     START
+
+No errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+ARR                 1200
+CMSP                1240
+CR                  D
+ENDL                1247
+END_LOOP_UI         104A
+END_PRINTEVEN       10A0
+END_PRINTODD        1112
+LBRA                1243
+LF                  A
+LOOP_UI             1008
+MSG1                1214
+MSG2                122C
+PRINTEVEN           1050
+PRINTEVEN_LOOP      1060
+PRINTEVEN_LOOP_NEXT  1098
+PRINTODD            10BE
+PRINTODD_LOOP       10D0
+PRINTODD_LOOP_NEXT  110A
+PRINTODD_PRINTN     1100
+RBRA                1245
+START               1000

@@ -1,0 +1,71 @@
+00000400 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.15.02
+Created On: 22/04/2015 12:43:24 PM
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Title      :
+00000000                             3  * Written by :
+00000000                             4  * Date       :
+00000000                             5  * Description:
+00000000                             6  *-----------------------------------------------------------
+00000400                             7      ORG    $400
+00000400                             8  START:                  ; first instruction of program
+00000400                             9      
+00000400                            10  
+00000400                            11  * Put program code here
+00000400  41F9 00000500             12      LEA     T,A0
+00000406  43F9 00000512             13      LEA     J,A1
+0000040C  103C 0001                 14      MOVE.B  #1,D0
+00000410  123C 0005                 15      MOVE.B  #5,D1
+00000414  143C 0007                 16      MOVE.B  #7,D2
+00000418                            17      
+00000418                            18  NEXT:
+00000418  D400                      19      ADD.B   D0,D2
+0000041A  1610                      20      MOVE.B  (A0),D3
+0000041C  1811                      21      MOVE.B  (A1),D4
+0000041E  1A04                      22      MOVE.B  D4,D5
+00000420  1205                      23      MOVE.B  D5,D1
+00000422  B645                      24      CMP     D5,D3
+00000424  6600 000E                 25      BNE     ELSE
+00000428  9602                      26      SUB.B   D2,D3
+0000042A  C6FC 0004                 27      MULU    #4,D3
+0000042E  3283                      28      MOVE    D3,(A1)
+00000430  6000 0006                 29      BRA     END_LOOP
+00000434                            30  
+00000434                            31  ELSE
+00000434  9843                      32      SUB     D3,D4
+00000436  3284                      33      MOVE    D4,(A1)
+00000438                            34      
+00000438                            35  END_LOOP
+00000438  5448                      36      ADDA    #2,A0
+0000043A  5449                      37      ADDA    #2,A1
+0000043C  5240                      38      ADD     #1,D0
+0000043E  B07C 0009                 39      CMP     #9,D0
+00000442  66D4                      40      BNE     NEXT
+00000444  103C 0004                 41      MOVE.B  #4,D0
+00000448  4E4F                      42      TRAP    #15
+0000044A                            43  
+0000044A  FFFF FFFF                 44      SIMHALT             ; halt simulator
+0000044E                            45  
+00000500                            46         ORG  $500
+00000500                            47  
+00000500                            48  * Put variables and constants here
+00000500= 0006 0002 0005 0...       49  T   DC.W    6,2,5,4,9,7,3,1,0
+00000512= 0005 0007 0001 0...       50  J   DC.W    5,7,1,9,2,5,6,6,1
+00000524                            51  
+00000524                            52  
+00000524                            53      END    $400        ; last line of source
+
+No errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+ELSE                434
+END_LOOP            438
+J                   512
+NEXT                418
+START               400
+T                   500
